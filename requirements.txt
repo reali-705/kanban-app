@@ -1,0 +1,4 @@
+fastapi==0.117.1
+uvicorn[standard]==0.37.0
+SQLAlchemy==2.0.43
+flet==0.28.3
