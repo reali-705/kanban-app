@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from .database import engine, Base
 
 # Importa os modelos para que o SQLAlchemy saiba sobre eles
-from . import models
+from . import models    # noqa: F401
 
 # --- Criação das Tabelas no Banco de Dados ---
 # Esta linha é crucial. Ela pega todos os modelos que herdam de 'Base'
