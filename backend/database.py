@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 # URL de conexão com o banco de dados SQLite local
-SQLALCHEMY_DATABASE_URL = "sqlite:///./kanban.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///backend/kanban.db"
 
 # Engine: gerencia pool de conexões síncronas que podem trabalhar em paralelo
 # Permite que o FastAPI (assíncrono) delegue tarefas para múltiplas conexões simultâneas
