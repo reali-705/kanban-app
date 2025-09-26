@@ -1,1 +1,17 @@
+# Ambiente Virtual
 .venv/
+
+# Cache do Python
+__pycache__/
+*.pyc
+
+# Banco de Dados de Desenvolvimento
+*.db
+*.sqlite3
+
+# Configurações de IDE
+.vscode/
+.idea/
+
+# Arquivos de ambiente (importante para o futuro)
+.env
