@@ -1,17 +1,24 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+"""
+Configuração da conexão com o banco de dados (Database Setup).
 
-# URL de conexão com o banco de dados SQLite local
+Este arquivo é responsável por criar o 'engine' de conexão do SQLAlchemy
+e a fábrica de sessões que a aplicação usará para interagir com o banco.
+"""
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+# URL de conexão para o banco de dados SQLite local.
 SQLALCHEMY_DATABASE_URL = "sqlite:///backend/kanban.db"
 
-# Engine: gerencia pool de conexões síncronas que podem trabalhar em paralelo
-# Permite que o FastAPI (assíncrono) delegue tarefas para múltiplas conexões simultâneas
+# Engine do SQLAlchemy, que gerencia as conexões.
+# O argumento `connect_args` é necessário para o SQLite em ambientes multithread.
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
 )
 
-# Fábrica de sessões: cria instâncias para interagir com o banco de dados
+# Fábrica de sessões. Cada instância de `SessionLocal` será uma sessão com o banco.
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-# Modelo base para as tabelas do banco de dados
+
+# Classe base para os modelos ORM. Nossas tabelas herdarão dela.
 Base = declarative_base()

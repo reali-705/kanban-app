@@ -1,3 +1,10 @@
+"""
+Modelos ORM (Object-Relational Mapping) do SQLAlchemy.
+
+Este arquivo define as classes Python que representam as tabelas no banco de dados.
+Cada classe corresponde a uma tabela e seus atributos correspondem às colunas.
+O ORM permite interagir com o banco de dados usando objetos Python em vez de SQL bruto.
+"""
 from sqlalchemy import Column, Integer, String, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from .database import Base
@@ -12,9 +19,8 @@ class Kanban(Base):
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String, nullable=False)
     
-    # Relacionamento: Um kanban tem muitas colunas
+    # Relacionamento com as colunas (um-para-muitos).
     colunas = relationship("Coluna", back_populates="kanban", cascade="all, delete-orphan")
-
 
 class Coluna(Base):
     """
@@ -25,13 +31,12 @@ class Coluna(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String, nullable=False)
-    posicao = Column(Integer, nullable=False)  # Ordem das colunas no kanban
+    posicao = Column(Integer, nullable=False)
     kanban_id = Column(Integer, ForeignKey("kanbans.id"), nullable=False)
     
-    # Relacionamentos
-    kanban = relationship("Kanban", back_populates="colunas")  # Volta para o kanban pai
-    cartoes = relationship("Cartao", back_populates="coluna", cascade="all, delete-orphan")  # Cartoes dentro desta coluna
-
+    # Relacionamentos de volta para o Kanban e para os Cartões.
+    kanban = relationship("Kanban", back_populates="colunas")
+    cartoes = relationship("Cartao", back_populates="coluna", cascade="all, delete-orphan")
 
 class Cartao(Base):
     """
@@ -42,10 +47,10 @@ class Cartao(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     titulo = Column(String, nullable=False)
-    descricao = Column(Text, nullable=True)  # Pode ser nulo
-    responsavel = Column(String, nullable=True)   # Pode ser nulo
-    cor = Column(String, nullable=True)      # Pode ser nulo (ex: "#FF5733")
+    descricao = Column(Text, nullable=True)
+    responsavel = Column(String, nullable=True)
+    cor = Column(String, nullable=True)
     coluna_id = Column(Integer, ForeignKey("colunas.id"), nullable=False)
 
-    # Relacionamento: Volta para a coluna pai
+    # Relacionamento de volta para a Coluna.
     coluna = relationship("Coluna", back_populates="cartoes")
