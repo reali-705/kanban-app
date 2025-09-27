@@ -60,4 +60,4 @@ A arquitetura é modular para separar claramente as responsabilidades:
 - **Modelos de Dados:**
   - `models.py` é para a estrutura do banco de dados (SQLAlchemy).
   - `schemas.py` é para a "forma" dos dados que entram e saem da API (Pydantic).
-- **Commits no Git:** Use mensagens de commit claras e descritivas, preferencialmente em inglês, seguindo o padrão de commits convencionais (ex: `feat:`, `fix:`, `docs:`, `refactor:`).
+- **Commits no Git:** Use mensagens de commit claras e descritivas, preferencialmente em português-brasil, seguindo o padrão de commits convencionais (ex: `feat:`, `fix:`, `docs:`, `refactor:`).
