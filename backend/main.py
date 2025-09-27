@@ -6,9 +6,12 @@ criar as tabelas no banco de dados na inicialização e definir
 os endpoints (rotas) da API.
 """
 
-from fastapi import FastAPI
-from .database import engine, Base
-from . import models  # noqa: F401
+from fastapi import FastAPI, Depends
+from sqlalchemy.orm import Session
+from typing import List
+
+from . import models, schemas 
+from .database import SessionLocal, engine, Base
 
 # Cria as tabelas no banco de dados (se não existirem) ao iniciar a aplicação.
 Base.metadata.create_all(bind=engine)
@@ -20,7 +23,41 @@ app = FastAPI(
     version="0.1.0",
 )
 
+# --- Dependência para obter a sessão do banco de dados ---
+def get_db():
+    """
+    Cria e fornece uma sessão de banco de dados por requisição.
+    Garante que a sessão seja sempre fechada após o uso.
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# --- Endpoints para Kanban ---
+
+@app.post("/kanbans/", response_model=schemas.Kanban)
+def criar_kanban(kanban: schemas.KanbanCreate, db: Session = Depends(get_db)):
+    """
+    Cria um novo quadro Kanban.
+    """
+    # Cria uma instância do modelo SQLAlchemy a partir dos dados do schema
+    db_kanban = models.Kanban(nome=kanban.nome)
+    db.add(db_kanban)  # Adiciona o novo objeto à sessão
+    db.commit()       # Confirma a transação, salvando no banco
+    db.refresh(db_kanban) # Atualiza o objeto com os dados do banco (como o novo ID)
+    return db_kanban
+
+@app.get("/kanbans/", response_model=List[schemas.Kanban])
+def ler_todos_kanbans(db: Session = Depends(get_db)):
+    """
+    Retorna uma lista de todos os quadros Kanban.
+    """
+    kanbans = db.query(models.Kanban).all()
+    return kanbans
+
 @app.get("/")
-def read_root():
+def boas_vindas():
     """Endpoint raiz para verificar se a API está online."""
     return {"message": "Bem-vindo à API do Kanban!"}
