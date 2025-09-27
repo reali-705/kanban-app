@@ -2,17 +2,42 @@
     "version": "0.2.0",
     "configurations": [
         {
+            // "name": O nome que aparecerá no menu de depuração (aba "Run and Debug").
             "name": "Debug: FastAPI",
+
+            // "type": O tipo de depurador. "debugpy" é o depurador padrão para Python no VS Code.
             "type": "debugpy",
+
+            // "request": "launch" significa que o VS Code vai iniciar o processo para depuração.
+            // A outra opção seria "attach", para se conectar a um processo já em execução.
             "request": "launch",
+
+            // "module": O módulo Python a ser executado. Em vez de "python -m uvicorn", usamos esta forma.
             "module": "uvicorn",
+
+            // "args": Uma lista de argumentos a serem passados para o módulo.
+            // Note que não usamos "--reload" aqui, pois o modo de recarga pode conflitar com o depurador.
             "args": [
                 "backend.main:app",
-                "--reload",
+                "--host",
+                "127.0.0.1",
                 "--port",
                 "8000"
             ],
-            "jinja": true
+
+            // "jinja": Habilita a depuração de templates Jinja2 (útil se você usar templates HTML).
+            "jinja": true,
+
+            // "justMyCode": true faz o depurador ignorar o código de bibliotecas instaladas,
+            // focando apenas no seu próprio código. Muito útil para não se perder.
+            "justMyCode": true,
+
+            // "env": Define variáveis de ambiente para a sessão de depuração.
+            // "PYTHONPATH" diz ao Python para procurar módulos na raiz do projeto,
+            // garantindo que "import backend.main" funcione corretamente.
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
         }
     ]
 }

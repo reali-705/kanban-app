@@ -2,18 +2,35 @@
     "version": "2.0.0",
     "tasks": [
         {
+            // "label": O nome que aparecerá na lista de tarefas do VS Code.
             "label": "Iniciar Backend (Desenvolvimento)",
+
+            // "type": "shell" significa que o comando será executado no terminal padrão.
             "type": "shell",
+
+            // "command": O comando exato a ser executado.
+            // Aqui, ativamos o ambiente virtual e depois iniciamos o servidor uvicorn com reload.
             "command": ".\\.venv\\Scripts\\Activate.ps1; uvicorn backend.main:app --reload",
+
+            // "isBackground": true significa que a tarefa continuará rodando em segundo plano.
+            // Essencial para servidores e processos de "watch".
             "isBackground": true,
+
+            // "problemMatcher": Usado para capturar erros do output e mostrá-los na aba "Problems".
+            // Deixamos vazio por enquanto, mas poderíamos configurar para capturar erros do Python.
             "problemMatcher": [],
+
+            // "group": Agrupa a tarefa. "build" é um grupo comum.
+            // "isDefault": true permite executar esta tarefa com o atalho Ctrl+Shift+B.
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
+
+            // "presentation": Controla como o painel do terminal se comporta ao rodar a tarefa.
             "presentation": {
-                "reveal": "always",
-                "panel": "new"
+                "reveal": "always", // Sempre mostra o painel do terminal.
+                "panel": "new"      // Cria um novo painel de terminal para esta tarefa.
             }
         }
     ]
