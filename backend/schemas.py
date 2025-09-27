@@ -4,52 +4,49 @@ Schemas Pydantic para validação e serialização de dados da API.
 Define a "forma" dos dados que entram e saem da API, garantindo um
 contrato de dados claro e seguro entre o cliente e o servidor.
 """
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import List, Optional
 
 # --- Schemas para Cartao ---
-class CartaoBase(BaseModel):
+class CartaoBaseSchema(BaseModel):
     titulo: str
     descricao: Optional[str] = None
     responsavel: Optional[str] = None
     cor: Optional[str] = None
 
-class CartaoCreate(CartaoBase):
+class CartaoCreateSchema(CartaoBaseSchema):
     coluna_id: int
 
-class Cartao(CartaoBase):
+class CartaoSchema(CartaoBaseSchema):
     id: int
     coluna_id: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- Schemas para Coluna ---
-class ColunaBase(BaseModel):
+class ColunaBaseSchema(BaseModel):
     nome: str
     posicao: int
 
-class ColunaCreate(ColunaBase):
+class ColunaCreateSchema(ColunaBaseSchema):
     kanban_id: int
 
-class Coluna(ColunaBase):
+class ColunaSchema(ColunaBaseSchema):
     id: int
     kanban_id: int
-    cartoes: List[Cartao] = []
+    cartoes: List[CartaoSchema] = []
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 # --- Schemas para Kanban ---
-class KanbanBase(BaseModel):
+class KanbanBaseSchema(BaseModel):
     nome: str
 
-class KanbanCreate(KanbanBase):
+class KanbanCreateSchema(KanbanBaseSchema):
     pass
 
-class Kanban(KanbanBase):
+class KanbanSchema(KanbanBaseSchema):
     id: int
-    colunas: List[Coluna] = []
+    colunas: List[ColunaSchema] = []
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
