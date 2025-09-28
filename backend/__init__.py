@@ -24,9 +24,11 @@ from .schemas import ( # noqa: F401
     CartaoCreateSchema,
     CartaoSchema
 )
+from .main import app, get_db  # noqa: F401
 
 __all__ = [
     "Base", "SessionLocal", "engine",
+    "app", "get_db",
     "KanbanModelo", "KanbanCreateSchema", "KanbanSchema",
     "ColunaModelo", "ColunaCreateSchema", "ColunaSchema",
     "CartaoModelo", "CartaoCreateSchema", "CartaoSchema"

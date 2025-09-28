@@ -5,8 +5,7 @@ Este arquivo é responsável por criar o 'engine' de conexão do SQLAlchemy
 e a fábrica de sessões que a aplicação usará para interagir com o banco.
 """
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 
 # URL de conexão para o banco de dados SQLite local.
 SQLALCHEMY_DATABASE_URL = "sqlite:///backend/kanban.db"
