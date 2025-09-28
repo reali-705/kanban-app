@@ -2,14 +2,24 @@
     "version": "2.0.0",
     "tasks": [
         {
-            // Inicia a API do backend em modo de desenvolvimento (com recarregamento automático).
-            "label": "Iniciar Backend (Desenvolvimento)",
+            "label": "Ativar Ambiente Virtual",
+            "detail": "Ativa o ambiente virtual Python para garantir que todas as dependências estejam disponíveis.",
             "type": "shell",
-            "command": ".\\.venv\\Scripts\\Activate.ps1; uvicorn backend.main:app --reload",
-            "isBackground": true,
+            "command": ".\\.venv\\Scripts\\Activate.ps1",
             "problemMatcher": [],
-
-            // Define esta como a tarefa de "build" padrão. Pode ser ativada com o atalho Ctrl+Shift+B.
+            "presentation": {"reveal": "never"}
+        },
+        {
+            "label": "Iniciar Backend (Desenvolvimento)",
+            "detail": "Executa o servidor FastAPI em modo de desenvolvimento, permitindo recarregamento automático.",
+            "type": "shell",
+            "dependsOn": ["Ativar Ambiente Virtual"],
+            "command": "uvicorn",
+            "args": [
+                "app.main:app",
+                "--reload"
+            ],
+            "isBackground": true,
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -20,12 +30,12 @@
             }
         },
         {
-            // Executa os testes automatizados do projeto com a ferramenta pytest.
             "label": "Rodar Testes",
+            "detail": "Roda todos os testes automatizados do projeto com saída detalhada.",
             "type": "shell",
-            "command": ".\\.venv\\Scripts\\Activate.ps1; pytest",
-            "problemMatcher": [],
-            // Define esta como a tarefa de "teste" padrão. O atalho padrão para tarefas de teste é Ctrl+Shift+T.
+            "dependsOn": ["Ativar Ambiente Virtual"],
+            "command": "pytest",
+            "args": ["-v"],
             "group": {
                 "kind": "test",
                 "isDefault": true
