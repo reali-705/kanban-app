@@ -4,12 +4,12 @@ Schemas Pydantic para validação e serialização de dados da API.
 Define a "forma" dos dados que entram e saem da API, garantindo um
 contrato de dados claro e seguro entre o cliente e o servidor.
 """
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import List, Optional
 
 # --- Schemas para Cartao ---
 class CartaoBaseSchema(BaseModel):
-    titulo: str
+    titulo: str = Field(..., min_length=1)
     descricao: Optional[str] = None
     responsavel: Optional[str] = None
     cor: Optional[str] = None
@@ -25,7 +25,7 @@ class CartaoSchema(CartaoBaseSchema):
 
 # --- Schemas para Coluna ---
 class ColunaBaseSchema(BaseModel):
-    nome: str
+    nome: str = Field(..., min_length=1)
     posicao: int
 
 class ColunaCreateSchema(ColunaBaseSchema):
@@ -40,7 +40,7 @@ class ColunaSchema(ColunaBaseSchema):
 
 # --- Schemas para Kanban ---
 class KanbanBaseSchema(BaseModel):
-    nome: str
+    nome: str = Field(..., min_length=1)
 
 class KanbanCreateSchema(KanbanBaseSchema):
     pass
