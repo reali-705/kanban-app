@@ -6,17 +6,18 @@ O desenvolvimento serve como um exercício prático de habilidades full-stack, c
 
 ## ✨ Proposta e Objetivos
 
--   **Privacidade em Primeiro Lugar:** Seus dados são seus. Tudo é armazenado localmente em um arquivo de banco de dados, garantindo total controle e privacidade.
--   **Simplicidade e Foco:** Uma ferramenta para organizar tarefas sem a complexidade e as distrações de soluções corporativas.
--   **Desenvolvimento e Aprendizado:** Servir como um projeto de portfólio para testar e aprimorar habilidades em desenvolvimento de software, desde a API até a interface do usuário.
--   **Escalabilidade:** Construído sobre uma base sólida e modular, permitindo que novas funcionalidades sejam adicionadas facilmente no futuro.
+- **Privacidade em Primeiro Lugar:** Seus dados são seus. Tudo é armazenado localmente em um arquivo de banco de dados, garantindo total controle e privacidade.
+- **Simplicidade e Foco:** Uma ferramenta para organizar tarefas sem a complexidade e as distrações de soluções corporativas.
+- **Desenvolvimento e Aprendizado:** Servir como um projeto de portfólio para testar e aprimorar habilidades em desenvolvimento de software, desde a API até a interface do usuário.
+- **Escalabilidade:** Construído sobre uma base sólida e modular, permitindo que novas funcionalidades sejam adicionadas facilmente no futuro.
 
 ## 🛠️ Tecnologias Utilizadas
 
--   **Backend:** [Python](https://www.python.org/) com [FastAPI](https://fastapi.tiangolo.com/)
--   **Frontend:** [Flet](https://flet.dev/) (para a interface gráfica em Python)
--   **Banco de Dados:** [SQLite](https://www.sqlite.org/index.html) (para armazenamento local)
--   **ORM:** [SQLAlchemy](https://www.sqlalchemy.org/) (para interação com o banco de dados)
+- **Backend:** [Python](https://www.python.org/) com [FastAPI](https://fastapi.tiangolo.com/)
+- **Frontend:** [Flet](https://flet.dev/) (para a interface gráfica em Python)
+- **Banco de Dados:** [SQLite](https://www.sqlite.org/index.html) (para armazenamento local)
+- **ORM:** [SQLAlchemy](https://www.sqlalchemy.org/) (para interação com o banco de dados)
+- **Testes:** [pytest](https://docs.pytest.org/en/latest/) com configuração avançada de marcadores
 
 ## 🚀 Como Começar (Ambiente de Desenvolvimento)
 
@@ -24,8 +25,8 @@ Siga os passos abaixo para configurar e executar o projeto em sua máquina local
 
 ### 1. Pré-requisitos
 
--   [Python 3.8+](https://www.python.org/downloads/) instalado e adicionado ao PATH do sistema.
--   [Git](https://git-scm.com/downloads) instalado.
+- [Python 3.8+](https://www.python.org/downloads/) instalado e adicionado ao PATH do sistema.
+- [Git](https://git-scm.com/downloads) instalado.
 
 ### 2. Clonar o Repositório
 
@@ -65,4 +66,14 @@ O servidor estará rodando em `http://127.0.0.1:8000`.
 Para testar os endpoints e ver a documentação interativa (Swagger UI), acesse:
 
 [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+## 🧪 Testes Automatizados
+
+O projeto agora conta com uma estrutura avançada de testes automatizados usando pytest, incluindo:
+
+- Organização dos testes por nível (unit, integration, api) e por objeto (kanban, coluna, cartao)
+- Configuração de marcadores no arquivo `pytest.ini` para facilitar a seleção e execução dos testes
+- Ambiente de testes isolado com banco SQLite temporário
+
+Veja mais detalhes em [backend/README.md](backend/README.md) e [tests/README.md](tests/README.md).
 

@@ -7,7 +7,7 @@ O ORM permite interagir com o banco de dados usando objetos Python em vez de SQL
 """
 from sqlalchemy import Column, Integer, String, ForeignKey, Text
 from sqlalchemy.orm import relationship
-from . import Base
+from .database import Base
 
 
 class KanbanModelo(Base):
