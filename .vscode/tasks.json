@@ -2,48 +2,27 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Ativar Ambiente Virtual",
-            "detail": "Ativa o ambiente virtual Python para garantir que todas as dependências estejam disponíveis.",
-            "type": "shell",
-            "command": ".\\.venv\\Scripts\\Activate.ps1",
-            "problemMatcher": [],
-            "presentation": {"reveal": "never"}
-        },
-        {
-            "label": "Iniciar Backend (Desenvolvimento)",
+            "label": "Ativar API",
             "detail": "Executa o servidor FastAPI em modo de desenvolvimento, permitindo recarregamento automático.",
             "type": "shell",
-            "dependsOn": ["Ativar Ambiente Virtual"],
-            "command": "uvicorn",
-            "args": [
-                "app.main:app",
-                "--reload"
-            ],
+            "command": ".\\.venv\\Scripts\\Activate.ps1; uvicorn backend.main:app --reload",
             "isBackground": true,
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
+            "presentation": {"panel": "dedicated"},
         },
         {
             "label": "Rodar Testes",
             "detail": "Roda todos os testes automatizados do projeto com saída detalhada.",
             "type": "shell",
-            "dependsOn": ["Ativar Ambiente Virtual"],
-            "command": "pytest",
-            "args": ["-v"],
+            "command": ".\\.venv\\Scripts\\Activate.ps1; pytest -v",
             "group": {
                 "kind": "test",
                 "isDefault": true
             },
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
+            "presentation": {"panel": "dedicated"}
         }
     ]
 }
