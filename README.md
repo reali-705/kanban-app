@@ -1,89 +1,107 @@
-# Testes Automatizados com Pytest
+# Kanban Pessoal - Um Gerenciador de Tarefas Local
 
-Este diretório é dedicado à garantia de qualidade do código do backend. Utilizamos o framework [Pytest](https://pytest.org/) para escrever e executar testes de forma eficiente, garantindo que a API se comporte como esperado e que novas alterações não introduzam bugs (regressão).
+Este projeto é um gerenciador de tarefas pessoal no estilo Kanban, desenvolvido com foco em aprendizado e uso prático. A proposta é criar uma aplicação desktop para Windows que seja simples, privada e totalmente autocontida, sem depender de serviços na nuvem.
 
-Nossa estratégia de testes é dividida em categorias para cobrir diferentes aspectos da aplicação.
+O desenvolvimento serve como um exercício prático de habilidades full-stack, combinando um backend robusto com uma interface gráfica reativa.
 
-## 📂 Estrutura e Organização
+## ✨ Proposta e Objetivos
 
-Os testes são organizados em subdiretórios que refletem o tipo de teste, facilitando a navegação e a execução de conjuntos específicos.
+- **Privacidade em Primeiro Lugar:** Seus dados são seus. Tudo é armazenado localmente em um arquivo de banco de dados, garantindo total controle e privacidade.
+- **Simplicidade e Foco:** Uma ferramenta para organizar tarefas sem a complexidade e as distrações de soluções corporativas.
+- **Desenvolvimento e Aprendizado:** Servir como um projeto de portfólio para testar e aprimorar habilidades em desenvolvimento de software, desde a API até a interface do usuário.
+- **Escalabilidade:** Construído sobre uma base sólida e modular, permitindo que novas funcionalidades sejam adicionadas facilmente no futuro.
+
+## 🚀 Tecnologias Utilizadas
+
+O projeto foi construído utilizando um conjunto de bibliotecas Python modernas para garantir um desenvolvimento robusto e eficiente.
+
+| Biblioteca | Versão | Descrição | Diretório de Uso |
+| :--- | :--- | :--- | :--- |
+| **fastapi** | 0.117.1 | Um framework web moderno e de alta performance para construir APIs com Python. | [`/backend`](/backend/) |
+| **flet** | 0.28.3 | Permite criar aplicações web, desktop e mobile interativas em Python. | [`/frontend`](/frontend/) |
+| **uvicorn** | 0.37.0 | Um servidor web ASGI (Asynchronous Server Gateway Interface) para Python. | Usado para rodar a API |
+| **SQLAlchemy** | 2.0.43 | Um toolkit SQL e Object Relational Mapper (ORM) para Python. | [`/backend/database`](/backend/database/) |
+| **pytest** | 8.4.2 | Um framework que torna a construção de testes simples e escaláveis. | [`/tests`](/tests/) |
+
+## 📂 Estrutura de Diretórios
+
+O projeto está organizado da seguinte forma para separar as responsabilidades e facilitar a manutenção:
 
 ```
-tests/
-├── conftest.py              # Fixtures e configurações globais do Pytest
-├── api/                     # Testes de ponta-a-ponta para os endpoints da API
-├── integration/             # Testes de integração entre múltiplos componentes
-└── unit/                    # Testes de unidades para funções ou classes isoladas
+kanban-app/
+├── backend/            # Lógica central da aplicação (API)
+│   ├── main.py         # Ponto de entrada e inicialização da API
+│   ├── routers/        # Manipulação de requisições HTTP (FastAPI Routers)
+│   ├── services/       # Lógica de Negócio e Interação com o DB (CRUD)
+│   └── schemas/        # Estrutura de Dados (Pydantic, SQLAlchemy Models, Conexão DB)
+├── frontend/           # Interface Gráfica com Flet (a ser implementada)
+├── tests/              # Testes automatizados (Unit, Integration, API)
+├── .vscode/            # Configurações do ambiente de desenvolvimento (Tasks)
+├── setup.ps1           # Script PowerShell para setup inicial
+├── requirements.txt    # Dependências do projeto
+└── LICENSE             # Licença MIT (Direitos Autorais)
 ```
 
-### O Papel do `conftest.py`
+  * [`/backend`](/backend/): Contém toda a lógica da API, incluindo a configuração do servidor com FastAPI, a conexão com o banco de dados via SQLAlchemy, os modelos de dados e as rotas da aplicação.
+  * [`/tests`](/tests/): Inclui todos os testes automatizados do projeto, escritos com Pytest, para garantir a qualidade e o funcionamento correto da API e de suas funcionalidades.
 
-O arquivo `conftest.py` é um arquivo especial do Pytest que nos permite compartilhar "fixtures" entre múltiplos arquivos de teste. Uma **fixture** é uma função que prepara um ambiente ou dados necessários para um ou mais testes.
+## 🛠️ Como Começar (Ambiente Automatizado)
 
-Por exemplo, em vez de criar uma nova conexão com o banco de dados de teste em cada arquivo, nós definimos uma fixture no `conftest.py`. O Pytest então injeta essa fixture automaticamente em qualquer função de teste que a solicite. Isso torna os testes mais limpos, mais rápidos e evita a duplicação de código de configuração.
+Para configurar e executar o projeto de forma rápida, você pode usar os scripts e configurações de automação incluídos.
 
-## ⚙️ Configuração Central com `pytest.ini`
+### 1\. Configuração Inicial
 
-O arquivo `pytest.ini`, localizado na raiz do projeto, centraliza as configurações do Pytest.
+Primeiro, clone o repositório para a sua máquina local.
 
-**Exemplo do `pytest.ini`:**
-
-```ini
-[pytest]
-testpaths = tests
-addopts = -v -x --strict-markers
-
-markers =
-    unit: Testes de unidade.
-    integration: Testes de integração.
-    api: Testes de API.
-    kanban: Testes do objeto Kanban.
-    coluna: Testes do objeto Coluna.
+```bash
+git clone https://github.com/reali-705/kanban-app.git
+cd kanban-app
+code .
 ```
 
-### Entendendo as Opções (`addopts`)
+### 2\. Setup Automatizado com PowerShell
 
-A linha `addopts` adiciona argumentos de linha de comando padrão a cada execução do Pytest:
+O projeto inclui um script `setup.ps1` que automatiza a criação do ambiente virtual e a instalação de todas as dependências. Para executá-lo, abra o PowerShell no diretório do projeto e digite:
 
-  * `-v` (`--verbose`): Aumenta a verbosidade. Em vez de pontos, mostra o nome completo de cada teste e se ele passou ou falhou, fornecendo uma saída mais detalhada.
-  * `-x` (`--exitfirst`): Parar na primeira falha. Assim que um teste falha, o Pytest interrompe a execução imediatamente. É útil para depurar, pois foca a atenção no primeiro erro que ocorreu.
-  * `--strict-markers`: Garante que todos os marcadores usados no código (`@pytest.mark.<nome>`) estejam registrados na seção `markers` do `pytest.ini`. Isso evita erros de digitação e mantém a consistência das categorias de teste.
-
-## 🏷️ Marcando os Testes (`@pytest.mark`)
-
-Com os marcadores registrados, podemos "etiquetar" nossas funções de teste usando o decorador `@pytest.mark.<nome_do_marcador>`. Um mesmo teste pode receber múltiplos marcadores.
-
-**Exemplo prático e genérico:**
-
-```python
-import pytest
-
-# Teste com múltiplos marcadores
-@pytest.mark.api
-@pytest.mark.kanban
-def test_funcao_a():
-    # ... lógica do teste ...
-    pass
-
-# Teste com um único marcador
-@pytest.mark.unit
-def test_funcao_b():
-    # ... lógica do teste ...
-    pass
+```powershell
+.\setup.ps1
 ```
 
-## ⚡ Executando Testes de Forma Seletiva
+<small>*Observação: Pode ser necessário alterar a política de execução de scripts do PowerShell com o comando `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`.*</small>
 
-Para executar subconjuntos de testes, você pode usar a opção `-m` (marker) no terminal. O Pytest aceita os operadores lógicos `and`, `or` e `not` para criar expressões complexas e filtrar exatamente o que você precisa.
+Este comando irá:
 
-| Comando | Descrição |
-| :--- | :--- |
-| `pytest` | Executa **TODOS** os testes encontrados no diretório `tests`. |
-| `pytest -m api` | Executa **APENAS** os testes marcados com `@pytest.mark.api`. |
-| `pytest -m "api and kanban"` | Executa apenas os testes que possuem **AMBOS** os marcadores, `api` E `kanban`. |
-| `pytest -m "kanban or coluna"` | Executa os testes que possuem o marcador `kanban` **OU** o marcador `coluna`. |
-| `pytest -m "not unit"` | Executa todos os testes, **EXCETO** aqueles marcados como `unit`. |
+  - Criar um ambiente virtual chamado `.venv`.
+  - Ativar o ambiente.
+  - Instalar todas as dependências listadas em `requirements.txt`.
 
----
+### 3\. Usando Atalhos do VS Code (`tasks.json`)
 
-[↩️ Voltar para a raiz do projeto](../)
+Se você utiliza o Visual Studio Code, pode usar os atalhos configurados no arquivo `.vscode/tasks.json` para agilizar o desenvolvimento:
+
+#### **Rodando os Testes**
+
+Para garantir a qualidade e a integridade do código, você pode executar a suíte de testes automatizados.
+
+  * **Configure um atalho** de sua preferência no VS Code para a tarefa **"Run Pytest"**.
+  * Abra o menu de atalhos (`File > Preferences > Keyboard Shortcuts`), procure por `Tasks: Run Task` e adicione um atalho para a tarefa "Run Pytest".
+  * Ao usar o atalho, todos os testes na pasta [`/tests`](/tests/) serão executados.
+
+#### **Iniciando a API**
+
+Para colocar o servidor do backend no ar:
+
+  * Use o atalho padrão `Ctrl+Shift+B`.
+  * Isso executará a tarefa **"Run API"**, que ativa o ambiente virtual e inicia o servidor Uvicorn automaticamente.
+
+Após a inicialização, a API estará rodando em:
+**`http://127.0.0.1:8000`**
+
+Você pode interagir com a API e visualizar a documentação interativa gerada automaticamente pelo FastAPI acessando as seguintes URLs no seu navegador:
+
+  - **Swagger UI:** [`http://127.0.0.1:8000/docs`](http://127.0.0.1:8000/docs)
+  - **ReDoc:** [`http://127.0.0.1:8000/redoc`](http://127.0.0.1:8000/redoc)
+
+## ✒️ Autoria
+
+Este projeto foi desenvolvido por **Alessandro Reali**.
