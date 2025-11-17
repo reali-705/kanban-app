@@ -7,7 +7,7 @@ O ORM permite interagir com o banco de dados usando objetos Python em vez de SQL
 """
 from sqlalchemy import Column, Integer, String, ForeignKey, Text
 from sqlalchemy.orm import relationship
-from .database import Base
+from kanban.database import Base
 
 
 class KanbanModelo(Base):
@@ -16,10 +16,10 @@ class KanbanModelo(Base):
     Representa um quadro Kanban completo (ex: "Projeto A", "Tarefas Pessoais")
     """
     __tablename__ = "kanbans"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String, nullable=False)
-    
+
     # Relacionamento com as colunas (um-para-muitos).
     colunas = relationship("ColunaModelo", back_populates="kanban", cascade="all, delete-orphan")
 
@@ -29,12 +29,12 @@ class ColunaModelo(Base):
     Representa uma coluna dentro de um kanban (ex: "To Do", "In Progress", "Done")
     """
     __tablename__ = "colunas"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String, nullable=False)
     posicao = Column(Integer, nullable=False)
     kanban_id = Column(Integer, ForeignKey("kanbans.id"), nullable=False)
-    
+
     # Relacionamentos de volta para o Kanban e para os Cartões.
     kanban = relationship("KanbanModelo", back_populates="colunas")
     cartoes = relationship("CartaoModelo", back_populates="coluna", cascade="all, delete-orphan")
@@ -45,7 +45,7 @@ class CartaoModelo(Base):
     Representa um cartao individual dentro de uma coluna
     """
     __tablename__ = "cartoes"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     titulo = Column(String, nullable=False)
     descricao = Column(Text, nullable=True)

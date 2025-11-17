@@ -5,7 +5,7 @@
             "label": "Ativar API",
             "detail": "Executa o servidor FastAPI em modo de desenvolvimento, permitindo recarregamento automático.",
             "type": "shell",
-            "command": ".\\.venv\\Scripts\\Activate.ps1; uvicorn backend.main:app --reload",
+            "command": ".\\.venv\\Scripts\\Activate.ps1; uvicorn src.kanban.main:app --reload",
             "isBackground": true,
             "group": {
                 "kind": "build",

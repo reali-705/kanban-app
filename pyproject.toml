@@ -1,0 +1,49 @@
+[project]
+name = "kanban-app"
+version = "0.1.0"
+description = "Um gerenciador de tarefas pessoal no estilo Kanban."
+readme = "README.md"
+authors = [
+    { name = "Alessandro Reali", email = "alessandro.reali.3110@gmail.com" }
+]
+dependencies = [
+    "fastapi==0.117.1",
+    "uvicorn[standard]==0.37.0",
+    "SQLAlchemy==2.0.43",
+    "flet==0.28.3",
+    "pydantic-settings==2.4.0"
+]
+
+[project.urls]
+Repository = "https://github.com/reali-705/kanban-app"
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.4.2",
+    "pytest-cov==5.0.0",
+    "httpx==0.28.1",
+    "pytest-asyncio==0.23.8"
+]
+
+# =========================================================
+# CONFIGURAÇÃO DO PYTEST
+# =========================================================
+[tool.pytest.ini_options]
+minversion = "6.0"
+# Opções de linha de comando:
+# -v: modo verboso
+# -x: para no primeiro erro
+# --strict-markers: exige que os marcadores sejam registrados
+addopts = "-v -x --strict-markers"
+testpaths = [
+    "tests",
+]
+pythonpath = "src"
+markers = [
+    "unit: Testes de unidade, focados em funções isoladas e modelos.",
+    "integration: Testes de integração, verificam a interação entre componentes do backend.",
+    "api: Testes de API, simulam requisições HTTP aos endpoints do backend.",
+    "kanban: Testes relacionados ao objeto Kanban.",
+    "coluna: Testes relacionados ao objeto Coluna.",
+    "cartao: Testes relacionados ao objeto Cartão."
+]

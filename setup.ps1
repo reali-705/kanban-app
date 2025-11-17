@@ -42,9 +42,9 @@ if ($?) {
     exit 1
 }
 
-# Passo 5: Instala as dependencias do projeto listadas no requirements.txt
-Write-Host "Instalando as dependencias do projeto (requirements.txt)..." -ForegroundColor Yellow
-pip install -r requirements.txt
+# Passo 5: Instala as dependencias do projeto listadas no pyproject.toml
+Write-Host "Instalando as dependencias do projeto (pyproject.toml)..." -ForegroundColor Yellow
+pip install -e .[dev]
 
 if ($?) {
     Write-Host "Dependencias instaladas com sucesso." -ForegroundColor Green

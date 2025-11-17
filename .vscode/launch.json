@@ -18,7 +18,7 @@
             // "args": Uma lista de argumentos a serem passados para o módulo.
             // Note que não usamos "--reload" aqui, pois o modo de recarga pode conflitar com o depurador.
             "args": [
-                "backend.main:app",
+                "src.kanban.main:app",
                 "--host",
                 "127.0.0.1",
                 "--port",

@@ -17,11 +17,11 @@ O projeto foi construído utilizando um conjunto de bibliotecas Python modernas 
 
 | Biblioteca | Versão | Descrição | Diretório de Uso |
 | :--- | :--- | :--- | :--- |
-| **fastapi** | 0.117.1 | Um framework web moderno e de alta performance para construir APIs com Python. | [`/backend`](/backend/) |
-| **flet** | 0.28.3 | Permite criar aplicações web, desktop e mobile interativas em Python. | [`/frontend`](/frontend/) |
+| **fastapi** | 0.117.1 | Um framework web moderno e de alta performance para construir APIs com Python. | [`/src/kanban/`](/src/kanban/) |
+| **flet** | 0.28.3 | Permite criar aplicações web, desktop e mobile interativas em Python. | [`/frontend/`](/frontend/) |
 | **uvicorn** | 0.37.0 | Um servidor web ASGI (Asynchronous Server Gateway Interface) para Python. | Usado para rodar a API |
-| **SQLAlchemy** | 2.0.43 | Um toolkit SQL e Object Relational Mapper (ORM) para Python. | [`/backend/database`](/backend/database/) |
-| **pytest** | 8.4.2 | Um framework que torna a construção de testes simples e escaláveis. | [`/tests`](/tests/) |
+| **SQLAlchemy** | 2.0.43 | Um toolkit SQL e Object Relational Mapper (ORM) para Python. | [`/src/kanban/database.py`](/src/kanban/database.py) |
+| **pytest** | 8.4.2 | Um framework que torna a construção de testes simples e escaláveis. | [`/tests/`](/tests/) |
 
 ## 📂 Estrutura de Diretórios
 
@@ -29,21 +29,25 @@ O projeto está organizado da seguinte forma para separar as responsabilidades e
 
 ```
 kanban-app/
-├── backend/            # Lógica central da aplicação (API)
-│   ├── main.py         # Ponto de entrada e inicialização da API
-│   ├── routers/        # Manipulação de requisições HTTP (FastAPI Routers)
-│   ├── services/       # Lógica de Negócio e Interação com o DB (CRUD)
-│   └── schemas/        # Estrutura de Dados (Pydantic, SQLAlchemy Models, Conexão DB)
+├── src/                # Código-fonte da aplicação
+│   └── kanban/         # Lógica central da aplicação (API)
+│       ├── main.py     # Ponto de entrada e inicialização da API
+│       ├── database.py # Configuração da conexão com o banco de dados
+│       ├── models/     # Modelos de dados do SQLAlchemy
+│       ├── routes/     # Manipulação de requisições HTTP (FastAPI Routers)
+│       ├── schemas/    # Schemas de validação de dados (Pydantic)
+│       └── services/   # Lógica de Negócio (CRUD)
 ├── frontend/           # Interface Gráfica com Flet (a ser implementada)
 ├── tests/              # Testes automatizados (Unit, Integration, API)
-├── .vscode/            # Configurações do ambiente de desenvolvimento (Tasks)
+├── .vscode/            # Configurações do ambiente de desenvolvimento (Tasks, Launch)
+├── .gitignore          # Arquivos e pastas a serem ignorados pelo Git
+├── pyproject.toml      # Arquivo de configuração central do projeto e dependências
 ├── setup.ps1           # Script PowerShell para setup inicial
-├── requirements.txt    # Dependências do projeto
 └── LICENSE             # Licença MIT (Direitos Autorais)
 ```
 
-  * [`/backend`](/backend/): Contém toda a lógica da API, incluindo a configuração do servidor com FastAPI, a conexão com o banco de dados via SQLAlchemy, os modelos de dados e as rotas da aplicação.
-  * [`/tests`](/tests/): Inclui todos os testes automatizados do projeto, escritos com Pytest, para garantir a qualidade e o funcionamento correto da API e de suas funcionalidades.
+  * [`/src/kanban/`](/src/kanban/): Contém toda a lógica da API, incluindo a configuração do servidor com FastAPI, a conexão com o banco de dados via SQLAlchemy, os modelos de dados e as rotas da aplicação.
+  * [`/tests/`](/tests/): Inclui todos os testes automatizados do projeto, escritos com Pytest, para garantir a qualidade e o funcionamento correto da API e de suas funcionalidades.
 
 ## 🛠️ Como Começar (Ambiente Automatizado)
 
@@ -73,7 +77,7 @@ Este comando irá:
 
   - Criar um ambiente virtual chamado `.venv`.
   - Ativar o ambiente.
-  - Instalar todas as dependências listadas em `requirements.txt`.
+  - Instalar o projeto em modo editável e todas as dependências (principais e de desenvolvimento) listadas no `pyproject.toml`.
 
 ### 3\. Usando Atalhos do VS Code (`tasks.json`)
 
@@ -104,4 +108,4 @@ Você pode interagir com a API e visualizar a documentação interativa gerada a
 
 ## ✒️ Autoria
 
-Este projeto foi desenvolvido por **Alessandro Reali**.
+Este projeto foi desenvolvido por [**Alessandro Reali**](https://github.com/reali-705).

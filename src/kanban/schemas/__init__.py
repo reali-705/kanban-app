@@ -1,8 +1,3 @@
-from .database import ( # noqa: F401
-    Base,
-    SessionLocal,
-    engine
-)
 from .models import ( # noqa: F401
     KanbanModelo,
     ColunaModelo,

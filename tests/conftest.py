@@ -7,10 +7,11 @@ do FastAPI para usar o banco de teste e garante o isolamento entre os testes.
 
 import os
 import pytest
-from backend import app, get_db, Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
+from kanban.database import get_db, Base
+from kanban.main import app
 
 # Caminho fixo para o banco de dados de teste
 PATH_TESTE_DB = "tests/teste.db"
@@ -22,6 +23,7 @@ engine_test = create_engine(
 )
 SessionLocalTest = sessionmaker(autocommit=False, autoflush=False, bind=engine_test)
 
+
 def get_db_test():
     """
     Dependência sobrescrita do FastAPI para fornecer sessões do banco de teste.
@@ -32,8 +34,10 @@ def get_db_test():
     finally:
         db_test.close()
 
+
 # Redireciona todas as dependências do backend para o banco de teste
 app.dependency_overrides[get_db] = get_db_test
+
 
 @pytest.fixture(scope="function", autouse=True)
 def preparar_db_temporario():
@@ -45,15 +49,17 @@ def preparar_db_temporario():
     yield
     Base.metadata.drop_all(bind=engine_test)
 
+
 @pytest.fixture(scope="function")
 def cliente():
     """
     Fornece um cliente HTTP para simular requisições à API durante os testes.
     """
-    with TestClient(app) as cliente:
-        yield cliente
+    with TestClient(app) as test_cliente:
+        yield test_cliente
 
-def pytest_sessionfinish(session, exitstatus):
+
+def pytest_sessionfinish():
     """
     Remove o arquivo do banco de teste ao final da sessão de testes.
     """
