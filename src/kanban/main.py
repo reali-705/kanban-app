@@ -7,8 +7,9 @@ os endpoints (rotas) da API.
 """
 
 from fastapi import FastAPI
+
 from kanban.database import engine, Base
-from kanban.routes import kanbans_rotas
+import kanban.routes as Routes
 
 # Cria as tabelas no banco de dados (se não existirem) ao iniciar a aplicação.
 Base.metadata.create_all(bind=engine)
@@ -21,8 +22,10 @@ app = FastAPI(
 )
 
 
-# Inclui as rotas relacionadas a Kanbans na aplicação principal.
-app.include_router(kanbans_rotas.router)
+# Inclui as rotas relacionadas aos Quadros na aplicação principal.
+app.include_router(Routes.quadros, prefix="", tags=["Quadros"])
+app.include_router(Routes.colunas, prefix="", tags=["Colunas"])
+app.include_router(Routes.cartoes, prefix="", tags=["Cartões"])
 
 
 @app.get("/", tags=["Raiz"])
