@@ -3,9 +3,8 @@
 .vscode/
 *.code-workspace
 
-# Instruções do Copilot
-.github/
-.copilot/
+# Instruções do GitHub Copilot
+.github/copilot-instructions.md
 
 # JetBrains (IntelliJ, PyCharm, WebStorm, etc.)
 .idea/
