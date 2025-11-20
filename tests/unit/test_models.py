@@ -1,1 +1,0 @@
-"""KanbanModel, ColunaModelo, CartaoModelo (Definição de Tipos e Defaults)"""

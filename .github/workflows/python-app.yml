@@ -1,0 +1,41 @@
+name: Bot CI/CD Python
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validar:
+    
+    # A máquina virtual que o robô usará
+    runs-on: ubuntu-latest
+
+    # A sequência de PASSOS que o robô seguirá
+    steps:
+    # 1. Baixa o código do seu repositório para a máquina virtual
+    - uses: actions/checkout@v4
+
+    # 2. Configura o ambiente Python
+    - name: Setup Python 3.14
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.14"
+
+    # 3. Instala as dependências do projeto
+    - name: Instalando dependencias
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f pyproject.toml ]; then pip install -e .[dev]; fi
+        pip install pytest ruff # Garante que as ferramentas de teste/lint estejam instaladas
+
+    # 4. Roda o Linter (Ruff) para verificar o estilo e erros comuns
+    - name: Lint with Ruff
+      run: |
+        ruff check .
+
+    # 5. Roda os testes com Pytest
+    - name: Test with pytest
+      run: |
+        pytest
