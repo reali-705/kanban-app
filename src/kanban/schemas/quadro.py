@@ -44,5 +44,6 @@ class Quadro(Base):
     """
 
     id: int
+    delete: bool
     colunas: List[Coluna] = []
     model_config = ConfigDict(from_attributes=True)

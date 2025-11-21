@@ -6,8 +6,9 @@ no banco de dados usando o ORM do SQLAlchemy. Cada instância desta classe
 representa um registro (uma linha) na tabela.
 """
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.orm import relationship
+
 from kanban.database import Base
 
 
@@ -19,6 +20,7 @@ class Quadro(Base):
 
     ### Atributos da Tabela:
     - **id** (`int`): Chave primária, identificador único do quadro.
+    - **delete** (`bool`): Indicador lógico para exclusão suave do quadro.
     - **nome** (`str`): O nome do quadro (ex: "Projeto A", "Tarefas Pessoais").
 
     ### Relacionamentos:
@@ -31,6 +33,7 @@ class Quadro(Base):
     __tablename__ = "quadros"
 
     id = Column(Integer, primary_key=True, index=True)
+    delete = Column(Boolean, default=False)
     nome = Column(String, nullable=False)
 
     colunas = relationship(
