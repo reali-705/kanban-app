@@ -6,20 +6,24 @@ do FastAPI para usar o banco de teste e garante o isolamento entre os testes.
 """
 
 import os
+
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
+
+from kanban.config import Settings
 from kanban.database import get_db, Base
 from kanban.main import app
 
-# Caminho fixo para o banco de dados de teste
-PATH_TESTE_DB = "tests/teste.db"
-SQLALCHEMY_DATABASE_URL = f"sqlite:///{PATH_TESTE_DB}"
+# Sobrescreve as configurações específicas para o banco de teste
+test_settings = Settings(
+    _env_file=".env.test", _env_file_encoding="utf-8", extra="ignore"
+)
 
 # Cria engine e sessão para o banco de teste
 engine_test = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    test_settings.DATABASE_URL, connect_args={"check_same_thread": False}
 )
 SessionLocalTest = sessionmaker(autocommit=False, autoflush=False, bind=engine_test)
 
@@ -64,5 +68,7 @@ def pytest_sessionfinish():
     Remove o arquivo do banco de teste ao final da sessão de testes.
     """
     engine_test.dispose()
-    if os.path.exists(PATH_TESTE_DB):
-        os.remove(PATH_TESTE_DB)
+
+    db_path = test_settings.DATABASE_URL.rsplit("///", 1)[-1]
+    if os.path.exists(db_path):
+        os.remove(db_path)
